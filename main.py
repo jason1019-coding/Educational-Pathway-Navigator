@@ -1,15 +1,14 @@
 def user_input():
     while True:
         try:
-            user_input = input("What is your child's current level(or 'exit' to quit): ")
+            user_input = input("What is your child's current age(or 'exit' to quit): ")
             if user_input.lower() == 'exit':
                 print("Exiting the program.")
                 break
-            number = float(user_input)
+            number = int(user_input)
             print(f"Based on the input, your child's current level is: {number}")
         except ValueError:
             print("Invalid input. Please enter a valid number or 'exit' to quit.")
-
 
 class primary_school:
     def __init__(self, age):
