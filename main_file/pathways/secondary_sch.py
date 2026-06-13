@@ -2,7 +2,8 @@ secondary_sch_pathways = {
     "Junior College/IB Program": { 
         "name": "Junior College/IB Program",
         "description": "A 2-year program that prepares students for university education, culminating in    the GCE A-Level or International Baccalaureate (IB) examinations.",
-        "eligibility": "The Metric: L1R4 (Language + 4 Relevant Subjects), All subjects used for this calculation must be taken at the most demanding academic level (G3).",
+        "eligibility": "The Metric: L1R4 (Language + 4 Relevant Subjects), All subjects used for this calculation must be taken at the most demanding academic level (G3)."
+    },
 
     "Polytechnic Foundation Programme (PFP)": {
         "name": "Polytechnic Foundation Programme (PFP)",
@@ -15,8 +16,9 @@ secondary_sch_pathways = {
         "description": "A 3-year program that offers a more flexible curriculum and allows students to take a combination of academic and vocational subjects.",
         "eligibility": "Grade Cut-off: A gross aggregate score of 20 points or fewer, Like JCs, subjects must be offered at the G3 level, but the slightly wider threshold accommodates students who may have experienced a minor slip in one or two subjects."
     },
+    
     "Polytechnic Diplomas (Direct Entry to Year 1)": {
-        "name": "Polytechnic Diplomas (Direct Entry to Year 1)",
+        "name": "Polytechnic Diplomas",
         "description": "Students can directly enter the first year of polytechnic education based on their GCE O-Level results.",
         "eligibility": "Grade Cut-off: Typically requires a gross aggregate score of around 12 points or fewer, with strong performance in relevant subjects. The exact cut-off can vary by polytechnic and course, but generally, students need to excel in their G2 subjects to secure direct entry into competitive diploma programs."
     },
