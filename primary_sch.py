@@ -1,7 +1,7 @@
 primary_school_pathways = {
     "DSA": {
         "name": "Direct School Admission",
-        "description": "Allows students to apply to secondary schools based on their talents and interests.",
+        "descrxiption": "Allows students to apply to secondary schools based on their talents and interests.",
         "deadline": "Typically in the first half of the year",
         "eligibility": "Primary school students with exceptional talents in areas such as sports, arts, or academics."
         },
