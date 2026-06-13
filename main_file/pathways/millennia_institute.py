@@ -40,3 +40,54 @@ millennia_institute_pathways = {
 }
 }
 
+def millennia_institute():
+    import sys
+
+    while True:
+        millennia_input = input("Would you like to know about Millennia Institute pathways? (yes/no/exit): ").strip().lower()
+        if millennia_input == 'yes':
+            while True:
+                print("Available pathways:")
+                for key, value in millennia_institute_pathways.items():
+                    print(f"{key}: {value['name']}")
+
+                millennia_detail_input = input("Which Millennia Institute pathway would you like to know more about? (or 'no' to return to main menu): ").strip()
+                if millennia_detail_input.lower() == 'no':
+                    print("No problem! Returning to main menu.")
+                    return
+                if millennia_detail_input.lower() == 'exit':
+                    sys.exit()
+
+                found = False
+                for key, value in millennia_institute_pathways.items():
+                    if millennia_detail_input.lower() == key.lower():
+                        print(f"Name: {value['name']}")
+                        print(f"Description: {value['description']}")
+                        print(f"Eligibility: {value['eligibility']}")
+                        if 'deadline' in value:
+                            print(f"Deadline: {value['deadline']}")
+                        found = True
+                        break
+
+                if not found:
+                    print("Pathway not found. Please enter a valid pathway name or 'no' to return to main menu.")
+
+                while True:
+                    millennia_another_input = input("Would you like to know about another pathway? (yes/no/exit): ").strip().lower()
+                    if millennia_another_input == 'yes':
+                        break
+                    elif millennia_another_input == 'no':
+                        print("No problem! Returning to main menu.")
+                        return
+                    elif millennia_another_input == 'exit':
+                        sys.exit()
+                    else:
+                        print("Please enter yes, no, or exit.")
+            continue
+        elif millennia_input == 'no':
+            print("No problem! Returning to main menu.")
+            break
+        elif millennia_input == 'exit':
+            sys.exit()
+        else:
+            print("Please enter yes, no, or exit.")
