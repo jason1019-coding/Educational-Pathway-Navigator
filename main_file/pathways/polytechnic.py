@@ -25,3 +25,55 @@ polytechnic_school_pathways = {
     "eligibility": "Polytechnic graduates who meet the academic and financial requirements of the respective target institution."
   }
 }
+
+def polytechnic():
+    import sys
+
+    while True:
+        polytechnic_input = input("Would you like to know about polytechnic pathways? (yes/no/exit): ").strip().lower()
+        if polytechnic_input == 'yes':
+            while True:
+                print("Available pathways:")
+                for key, value in polytechnic_school_pathways.items():
+                    print(f"{key}: {value['name']}")
+
+                polytechnic_detail_input = input("Which polytechnic pathway would you like to know more about? (or 'no' to return to main menu): ").strip()
+                if polytechnic_detail_input.lower() == 'no':
+                    print("No problem! Returning to main menu.")
+                    return
+                if polytechnic_detail_input.lower() == 'exit':
+                    sys.exit()
+
+                found = False
+                for key, value in polytechnic_school_pathways.items():
+                    if polytechnic_detail_input.lower() == key.lower():
+                        print(f"Name: {value['name']}")
+                        print(f"Description: {value['description']}")
+                        print(f"Eligibility: {value['eligibility']}")
+                        if 'deadline' in value:
+                            print(f"Deadline: {value['deadline']}")
+                        found = True
+                        break
+
+                if not found:
+                    print("Pathway not found. Please enter a valid pathway name or 'no' to return to main menu.")
+
+                while True:
+                    polytechnic_another_input = input("Would you like to know about another pathway? (yes/no/exit): ").strip().lower()
+                    if polytechnic_another_input == 'yes':
+                        break
+                    elif polytechnic_another_input == 'no':
+                        print("No problem! Returning to main menu.")
+                        return
+                    elif polytechnic_another_input == 'exit':
+                        sys.exit()
+                    else:
+                        print("Please enter yes, no, or exit.")
+            continue
+        elif polytechnic_input == 'no':
+            print("No problem! Returning to main menu.")
+            break
+        elif polytechnic_input == 'exit':
+            sys.exit()
+        else:
+            print("Please enter yes, no, or exit.")
