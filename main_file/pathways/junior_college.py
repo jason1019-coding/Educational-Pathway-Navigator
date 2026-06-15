@@ -1,5 +1,5 @@
 junior_college_pathways = {
-    "A Level": {
+    "A": {
         "name": "A Level",
         "description": "A 2-year programme that involves the suffering of countless 17 and 18 year olds.",
         "deadline": "Typically in the second half of the year, between September and November",
@@ -12,6 +12,10 @@ junior_college_pathways = {
         "eligibility": "Open to both international and local students. Students that can juggle multiple projects and can still study hard enough for the (admittedly MUCH less grindy than A-levels) final exams."
     }
 }
+display_options = {
+    "A": "A Level",
+    "IB": "International Baccalaureate (IB)"
+}
 
 def junior_college():
     import sys
@@ -21,10 +25,10 @@ def junior_college():
         if junior_college_input == 'yes':
             while True:
                 print("Available pathways:")
-                for key, value in junior_college_pathways.items():
-                    print(f"{key}: {value['name']}")
+                for key, value in display_options.items():
+                    print(f"{key}: {value}")
 
-                junior_college_detail_input = input("Which junior college pathway would you like to know more about? (or 'no' to return to main menu): ").strip()
+                junior_college_detail_input = input("Which junior college pathway would you like to know more about? (input in short form) (or 'no' to return to main menu): ").strip()
                 if junior_college_detail_input.lower() == 'no':
                     print("No problem! Returning to main menu.")
                     return
@@ -43,7 +47,7 @@ def junior_college():
                         break
 
                 if not found:
-                    print("Pathway not found. Please enter a valid pathway name or 'no' to return to main menu.")
+                    print("Pathway not found. Please enter a valid pathway name in short form or 'no' to return to main menu.")
 
                 while True:
                     junior_college_another_input = input("Would you like to know about another pathway? (yes/no/exit): ").strip().lower()

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educational Pathway Navigator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.15);
+    --text: #1a1a1a;
+    --muted: #666;
+    --hint: #aaa;
+    --accent: #2d6a4f;
+    --accent-light: #e8f5ee;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  .header { background: var(--accent); color: white; padding: 40px 24px 32px; text-align: center; }
+  .header-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .7; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; font-weight: 500; letter-spacing: -.5px; margin-bottom: 8px; }
+  .header p { font-size: 14px; opacity: .75; }
+
+  .main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 8px; }
+  .progress-bar { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s ease; }
+
+  .step { display: none; animation: fadeIn .25s ease; }
+  .step.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step-question { font-size: 20px; font-weight: 500; letter-spacing: -.3px; margin-bottom: 6px; }
+  .step-hint { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+
+  .options-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .option-btn {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    cursor: pointer; text-align: left; transition: all .15s;
+    font-family: 'DM Sans', sans-serif; width: 100%;
+  }
+  .option-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+  .option-btn.selected { border-color: var(--accent); background: var(--accent-light); }
+  .option-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .option-btn.selected .option-icon { background: var(--accent); }
+  .option-info { flex: 1; min-width: 0; }
+  .option-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .option-desc { font-size: 13px; color: var(--muted); }
+  .option-key { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--hint); background: var(--bg); padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+
+  .nav-row { display: flex; gap: 10px; margin-top: 8px; }
+  .btn-back { padding: 11px 20px; background: transparent; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; color: var(--muted); transition: background .15s; }
+  .btn-back:hover { background: var(--surface); }
+  .btn-next { padding: 11px 24px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity .15s; }
+  .btn-next:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-next:not(:disabled):hover { opacity: .88; }
+
+  .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+  .result-header { background: var(--accent); color: white; padding: 20px 22px; }
+  .result-header-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; margin-bottom: 6px; }
+  .result-header h2 { font-size: 20px; font-weight: 500; letter-spacing: -.3px; }
+  .result-body { padding: 20px 22px; }
+  .result-field { margin-bottom: 14px; }
+  .result-field:last-child { margin-bottom: 0; }
+  .result-field-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--hint); margin-bottom: 4px; }
+  .result-field-value { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .divider { height: 1px; background: var(--border); margin: 14px 0; }
+  .subjects-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .subject-tag { background: var(--accent-light); color: var(--accent); font-size: 12px; padding: 3px 10px; border-radius: 99px; font-family: 'DM Mono', monospace; }
+
+  .restart-btn { width: 100%; padding: 13px; background: transparent; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; color: var(--muted); transition: background .15s; margin-top: 8px; }
+  .restart-btn:hover { background: var(--surface); }
+
+  .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+  .error-msg { background: #fff0f0; border: 1px solid #fcc; border-radius: var(--radius-sm); padding: 14px; color: #c00; font-size: 14px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Singapore Education System</div>
+  <h1>Educational Pathway Navigator</h1>
+  <p>Answer a few questions to find the right pathway for your child</p>
+</div>
+
+<div class="main">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progress-text">Step 1 of 3</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- Step 1: Level -->
+  <div class="step active" id="step-1">
+    <div class="step-question">What level is your child currently at?</div>
+    <div class="step-hint">We will suggest the most relevant pathways based on their stage.</div>
+    <div id="level-options" class="options-grid"><div class="loading">Loading pathways...</div></div>
+    <div class="nav-row">
+      <button class="btn-next" id="btn-next-1" disabled onclick="goStep(2)">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Pathway -->
+  <div class="step" id="step-2">
+    <div class="step-question" id="step2-question">Which pathway are you interested in?</div>
+    <div class="step-hint">Select one to learn more about it.</div>
+    <div id="pathway-options" class="options-grid"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goStep(1)">← Back</button>
+      <button class="btn-next" id="btn-next-2" disabled onclick="goStep(3)">View details →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Result -->
+  <div class="step" id="step-3">
+    <div class="step-question">Here is your pathway details</div>
+    <div class="step-hint">Review the information below and plan your next steps.</div>
+    <div id="result-area"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goStep(2)">← Back</button>
+      <button class="restart-btn" onclick="restart()">Start over</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let DATA = {};
+let selectedLevel = null;
+let selectedPathway = null;
+const STEPS = 3;
+
+const ICONS = {
+  "Primary School": "📚",
+  "Secondary School": "🏫",
+  "Junior College": "🎓",
+  "Polytechnic": "🔧",
+  "Millennia Institute": "📖"
+};
+
+// Fetch pathway data from Flask backend
+async function loadData() {
+  try {
+    const res = await fetch('/api/pathways');
+    if (!res.ok) throw new Error('Server error');
+    DATA = await res.json();
+    renderLevels();
+  } catch (err) {
+    document.getElementById('level-options').innerHTML =
+      '<div class="error-msg">Could not connect to server. Make sure app.py is running on port 5000.</div>';
+  }
+}
+
+function updateProgress(step) {
+  const pct = Math.round(((step - 1) / (STEPS - 1)) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `Step ${step} of ${STEPS}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+
+function goStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  updateProgress(n);
+  if (n === 2 && selectedLevel) renderPathways();
+  if (n === 3 && selectedLevel && selectedPathway) renderResult();
+}
+
+function renderLevels() {
+  const g = document.getElementById('level-options');
+  g.innerHTML = Object.keys(DATA).map(key => `
+    <button class="option-btn${selectedLevel === key ? ' selected' : ''}" onclick="selectLevel('${key}')">
+      <div class="option-icon">${ICONS[key] || '📋'}</div>
+      <div class="option-info">
+        <div class="option-name">${key}</div>
+        <div class="option-desc">${DATA[key].hint || ''}</div>
+      </div>
+    </button>`).join('');
+}
+
+function selectLevel(key) {
+  selectedLevel = key;
+  selectedPathway = null;
+  renderLevels();
+  document.getElementById('btn-next-1').disabled = false;
+}
+
+function renderPathways() {
+  const level = DATA[selectedLevel];
+  document.getElementById('step2-question').textContent = `Which ${selectedLevel} pathway interests you?`;
+  const g = document.getElementById('pathway-options');
+  g.innerHTML = Object.entries(level.pathways).map(([key, val]) => `
+    <button class="option-btn${selectedPathway === key ? ' selected' : ''}" onclick="selectPathway('${key}')">
+      <div class="option-info">
+        <div class="option-name">${val.name}</div>
+        <div class="option-desc">${(val.description || '').slice(0, 90)}...</div>
+      </div>
+      <span class="option-key">${key}</span>
+    </button>`).join('');
+}
+
+function selectPathway(key) {
+  selectedPathway = key;
+  renderPathways();
+  document.getElementById('btn-next-2').disabled = false;
+}
+
+function renderResult() {
+  const p = DATA[selectedLevel].pathways[selectedPathway];
+  const area = document.getElementById('result-area');
+  if (!p) { area.innerHTML = '<div class="error-msg">No details found for this pathway.</div>'; return; }
+
+  const subjectsHTML = p.subjects
+    ? `<div class="divider"></div>
+       <div class="result-field">
+         <div class="result-field-label">Subjects</div>
+         <div class="subjects-list">${p.subjects.map(s => `<span class="subject-tag">${s}</span>`).join('')}</div>
+       </div>` : '';
+
+  const deadlineHTML = p.deadline
+    ? `<div class="result-field">
+         <div class="result-field-label">Key deadlines</div>
+         <div class="result-field-value">${p.deadline}</div>
+       </div>` : '';
+
+  area.innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-header-eyebrow">${selectedLevel}</div>
+        <h2>${p.name}</h2>
+      </div>
+      <div class="result-body">
+        <div class="result-field">
+          <div class="result-field-label">About</div>
+          <div class="result-field-value">${p.description || 'No description available.'}</div>
+        </div>
+        <div class="divider"></div>
+        <div class="result-field">
+          <div class="result-field-label">Eligibility</div>
+          <div class="result-field-value">${p.eligibility || 'See school website for details.'}</div>
+        </div>
+        ${deadlineHTML}
+        ${subjectsHTML}
+      </div>
+    </div>`;
+}
+
+function restart() {
+  selectedLevel = null;
+  selectedPathway = null;
+  document.getElementById('btn-next-1').disabled = true;
+  document.getElementById('btn-next-2').disabled = true;
+  renderLevels();
+  goStep(1);
+}
+
+loadData();
+updateProgress(1);
+</script>
+</body>
+</html>
