@@ -16,11 +16,11 @@ pathways = {
     "mi": "Millennia Institute",   # ← shortform
 }
 display_options = [
-    "Primary School",
-    "Secondary School",
-    "Junior College",
-    "Polytechnic",
-    "Millennia Institute"
+"Primary School",
+"Secondary School",
+"Junior College",
+"Polytechnic",
+"Millennia Institute"
 ]
 
 def user_input():
