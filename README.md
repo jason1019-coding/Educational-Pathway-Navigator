@@ -1,4 +1,6 @@
 Educational Pathway Navigator
+
+
 What is this project?
 Choosing a school pathway is easily one of the biggest milestones for any student in Singapore. Yet, every single year, so many students and parents feel completely lost trying to decode the massive wall of options, requirements, and cut-off points. We built this simple terminal tool to change that. We wanted to create a straightforward, stress-free space where youth can actually understand the routes open to them and make choices they feel confident about.
 
