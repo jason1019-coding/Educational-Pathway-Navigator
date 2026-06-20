@@ -43,8 +43,6 @@ Plaintext
 ├── junior_college.py          # Junior College requirements and paths
 ├── polytechnic.py             # Polytechnic course frameworks
 └── millennia_institute.py     # Specialized subject choices for MI
-💭 Reflection
-
 
 The hardest hurdle we faced:
 
