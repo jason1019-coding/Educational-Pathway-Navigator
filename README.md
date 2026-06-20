@@ -21,7 +21,7 @@ How to Run
 
 
 What you need
-Just regular Python 3 and the requests library so the app can talk to the live API.
+Just regular Python 3
 
 Step 1: Install the network library
 Pop open your terminal and run this quick command:
